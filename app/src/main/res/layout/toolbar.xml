@@ -1,0 +1,23 @@
+
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar"
+    style="@style/ToolBarStyle.Event"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#005387"
+    app:popupTheme="@style/Theme.AppCompat.Light" >
+    
+    <ToggleButton
+                            android:id="@+id/chkState"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/toggle_selector"
+                            android:layout_marginRight="16dp"
+                            android:layout_gravity="right"
+                            android:gravity="right"
+                            android:textOff=""
+                            android:textOn="" />
+    
+
+</android.support.v7.widget.Toolbar>
