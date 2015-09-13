@@ -11,6 +11,10 @@
     <string name="title_activity_result">ResultActivity</string>
     <string name="drawer_open">Drawer is Open</string>
     <string name="drawer_close">Drawer is Closed</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="logout">Logout</string>
+    <string name="subscribe">Subscribe Notifications</string>
+    <string name="pending_notifications">Recent Activity</string>
 
     <string name="gcm_send_message">Token retrieved and sent to server! You can now use gcmsender to
         send downstream messages to this app.</string>
@@ -20,5 +24,13 @@
         sending the fetched token to the server or subscribing to the PubSub topic. Please try
         running the sample again.</string>
     <string name="gcm_defaultSenderId">428518066860</string>
+    <string name="invite">App Invite</string>
+    <string name="share_score">Share Score</string>
+    <string name="answer_sheet">Answer Sheet</string>
+    <string name="rate_app">Rate App</string>
+    <string name="suggest_bug">Bug Report/Suggest</string>
+    <string name="about">About Quizify</string>
+    <string name="profile">Your Profile</string>
+    <string name="title_activity_splash">splash</string>
 
 </resources>

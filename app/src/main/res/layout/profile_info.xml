@@ -4,12 +4,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff">
+    android:background="#ffeff2f4">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+
         >
 
 
@@ -49,7 +50,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
 
-            >
+            android:id="@+id/layout_event_played">
 
             <TextView
                 android:id="@+id/textView3"
@@ -69,7 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="0"
+                android:text="-"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/com_facebook_likeview_text_color"
                 android:textStyle="bold"/>
@@ -99,10 +100,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="0"
+                android:text="-"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/com_facebook_likeview_text_color"
                 android:textStyle="bold"/>
+
         </LinearLayout>
 
         <View
@@ -138,7 +140,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="0"
+                android:text="-"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/com_facebook_likeview_text_color"/>
         </LinearLayout>
@@ -166,7 +168,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="0"
+                android:text="-"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/com_facebook_likeview_text_color"/>
         </LinearLayout>
@@ -174,7 +176,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:orientation="horizontal">
 
             <TextView
@@ -186,7 +187,7 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="4dp"
                 android:paddingTop="8dp"
-                android:text="Unattempted"
+                android:text="Unattempted:"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/accent_material_light"/>
 
@@ -195,7 +196,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="0"
+                android:text="-"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/com_facebook_likeview_text_color"/>
         </LinearLayout>

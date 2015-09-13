@@ -12,6 +12,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+/**
+ * Circular ImageView Used For user profiles throughout App
+ */
 public class CircularImageView extends ImageView
 {
     private int borderWidth = 5;

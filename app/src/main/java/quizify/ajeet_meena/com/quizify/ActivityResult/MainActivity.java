@@ -1,38 +1,44 @@
 package quizify.ajeet_meena.com.quizify.ActivityResult;
 
-import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.facebook.FacebookSdk;
-import com.facebook.Profile;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 
+import quizify.ajeet_meena.com.quizify.ActivityQuiz.Quiz;
 import quizify.ajeet_meena.com.quizify.R;
 import quizify.ajeet_meena.com.quizify.Utilities.Message;
+import quizify.ajeet_meena.com.quizify.Utilities.SlidingTabLayout;
 
 
 public class MainActivity extends ActionBarActivity
 {
-
-    TextView textViewScore;
-    TextView textViewCorrect;
-    TextView textViewWrong;
-    TextView textViewUnattempt;
-    ImageView imageView;
-    ProgressDialog pDialog;
-    Profile profile;
-
-    int unattempted;
-    int correct;
-    int wrong;
-    String event_name;
-    int number_of_questions;
-    OnlineHelper onlineHelper;
+    Toolbar toolbar;
+    FragmentManager mManager;
+    ViewPager pager;
+    ViewPagerAdapter viewPagerAdapter;
+    SlidingTabLayout slidingTabLayout;
+    CharSequence Titles[] = {"DASH BOARD", "SCORE BOARD"};
+    int Numboftabs = 2;
+    ShareDialog shareDialog;
+    Quiz quiz;
+    int eventId;
+    String eventName = "Quizify";
+    String from;
+    Bundle extras;
 
 
     @Override
@@ -40,90 +46,133 @@ public class MainActivity extends ActionBarActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        Bundle extras = getIntent().getExtras();
-        intialize();
-        if (extras != null)
+        toolbar = (Toolbar) findViewById(R.id.toolbar1);
+        extras = getIntent().getExtras();
+        if (getIntent().hasExtra("from") && extras != null)
         {
-            unattempted = extras.getInt("answered_unattempt", -1);
-            correct = extras.getInt("answered_correct", -1);
-            wrong = extras.getInt("aswered_wrong", -1);
-            event_name = extras.getString("event_name");
-            number_of_questions = extras.getInt("number_of_question", -1);
+            from = extras.getString("from");
+            if (from.equals("quiz"))
+            {
+                quiz = (Quiz) extras.getSerializable("quiz");
+                eventId = quiz.getEvent_id();
+                eventName = quiz.getEvent_name();
+            }
+            else
+            {
+                eventId = extras.getInt("event_id");
+                eventName = extras.getString("event_name");
+            }
+        }
+        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs, eventId, from);
+        pager = (ViewPager) findViewById(R.id.pager);
+        pager.setAdapter(viewPagerAdapter);
+        slidingTabLayout = (SlidingTabLayout) findViewById(R.id.tabs);
+        slidingTabLayout.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the slidingTabLayout Space Evenly in Available width
+        slidingTabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer()
+        {
+            @Override
+            public int getIndicatorColor(int position)
+            {
+                return getResources().getColor(R.color.google_white);
+            }
+        });
+        slidingTabLayout.setViewPager(pager);
+
+        if (android.os.Build.VERSION.SDK_INT >= 21)
+        {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(getResources().getColor(R.color.status_bar));
         }
 
-        textViewScore.setText(correct + "/" + number_of_questions);
-        textViewWrong.setText("" + wrong);
-        textViewUnattempt.setText("" + unattempted);
-        textViewCorrect.setText("" + correct);
-        new LongOperation().execute("");
+        mManager = getSupportFragmentManager();
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Results");
+        toolbar.setSubtitle(Html.fromHtml("<font color='#cccccc'>" + eventName + "</font>"));
+        mManager = getSupportFragmentManager();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
-
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        shareDialog = new ShareDialog(this);
+        invalidateOptionsMenu();
     }
 
-    void intialize()
+    @Override
+    public void onBackPressed()
     {
-        textViewScore = (TextView) findViewById(R.id.score);
-        textViewCorrect = (TextView) findViewById(R.id.correct);
-        textViewUnattempt = (TextView) findViewById(R.id.unattempted);
-        textViewWrong = (TextView) findViewById(R.id.wrong);
-        imageView = (ImageView) findViewById(R.id.profile_pic);
-
-    }
-
-
-    public void participate_more(View view)
-    {
-
-        Intent intent = new Intent(this, quizify.ajeet_meena.com.quizify.ActivityMainPage.MainActivity.class);
+        Intent intent = new Intent(this, quizify.ajeet_meena.com.quizify.ActivityMain.MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
-    private class LongOperation extends AsyncTask<String, Void, String>
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
     {
-
-        @Override
-        protected String doInBackground(String... params)
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        if(!from.equals("quiz"))
         {
+            MenuItem item = menu.findItem(R.id.answer_sheet);
+            item.setVisible(false);
+        }
+        return true;
+    }
 
-            profile = Profile.getCurrentProfile().getCurrentProfile();
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
-            if (profile != null)
+        //noinspection SimplifiableIfStatement
+        switch (id)
+        {
+            case R.id.share:
             {
 
-            } else
-            {
-
+                if (ShareDialog.canShow(ShareLinkContent.class))
+                {
+                    ShareLinkContent linkContent = new ShareLinkContent.Builder().setContentTitle("I played this awesome app named Quizify").setContentDescription("I played an Event Aptitude with other online players and scored 10 points on Quizify. Please Like there page").setContentUrl(Uri.parse("https://www.facebook.com/pages/Quizify/727631154012057")).build();
+                    shareDialog.show(linkContent);
+                }
+                return true;
             }
-
-            return "Executed";
+            case R.id.answer_sheet:
+            {
+                Intent intent = new Intent(this, quizify.ajeet_meena.com.quizify.ActivityQuiz.MainActivity.class);
+                intent.putExtras(extras);
+                startActivity(intent);
+                return true;
+            }
+            case R.id.rate_app:
+            {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                try
+                {
+                    intent.setData(Uri.parse("market://details?id=com.ajeet_meena.material"));
+                    startActivity(intent);
+                } catch (ActivityNotFoundException e)
+                {
+                    intent.setData(Uri.parse("https://play.google.com/store/apps/details?[Id]"));
+                    startActivity(intent);
+                    Message.message(this, "Could not open Android market, please install the market app");
+                }
+                return true;
+            }
+            case android.R.id.home:
+            {
+                Intent intent = new Intent(this, quizify.ajeet_meena.com.quizify.ActivityMain.MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                return true;
+            }
         }
-
-        @Override
-        protected void onPostExecute(String result)
-        {
-            Message.message(MainActivity.this, profile.getFirstName());
-
-            pDialog.dismiss();
-            onlineHelper = new OnlineHelper(MainActivity.this, profile.getFirstName(), profile.getId(), correct);
-            onlineHelper.PostContent();
-
-        }
-
-        @Override
-        protected void onPreExecute()
-        {
-            pDialog = new ProgressDialog(MainActivity.this);
-            pDialog.setMessage("Fetching Information...");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
-            pDialog.show();
-        }
-
-        @Override
-        protected void onProgressUpdate(Void... values)
-        {
-        }
+        return super.onOptionsItemSelected(item);
     }
 }
 

@@ -3,9 +3,6 @@
 
     <item android:state_pressed="true"><shape>
             <solid android:color="@color/dark_very_light" />
-
-
-            
             <corners
             android:radius="18dp" />
         </shape></item>
@@ -14,7 +11,6 @@
             <solid android:color="@color/color_second" />
             <corners
             android:radius="18dp" />
-            
         </shape>
     </item>
 

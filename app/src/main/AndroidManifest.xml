@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest package="quizify.ajeet_meena.com.quizify"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+          xmlns:android="http://schemas.android.com/apk/res/android"
+          android:versionCode="2"
+          android:versionName="1.0.01">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -9,11 +11,11 @@
     <!-- [START gcm_permission] -->
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <!-- [END gcm_permission] -->
 
+    <!-- [END gcm_permission] -->
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/app_icon"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <meta-data
@@ -21,12 +23,13 @@
             android:value="@string/app_id"/>
 
         <activity
-            android:name="quizify.ajeet_meena.com.quizify.ActivityLogin.MainActivity"
-            android:label="@string/app_name">
+            android:name=".ActivityLogin.MainActivity"
+            android:label="@string/app_name"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <activity
@@ -35,19 +38,22 @@
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <activity
-            android:name="quizify.ajeet_meena.com.quizify.ActivityMainPage.MainActivity"
+            android:name=".ActivityMain.MainActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/title_activity_front_quizify"
-            android:launchMode="singleTask"
-            android:noHistory="true">
+            android:label="@string/title_activity_front_quizify">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data android:scheme="quiz"/>
 
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <activity
-            android:name="quizify.ajeet_meena.com.quizify.ActivityExamination.MainActivity"
+            android:name=".ActivityQuiz.MainActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/mainQuiz">
             <intent-filter>
@@ -56,11 +62,10 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-
         <activity
-            android:name="quizify.ajeet_meena.com.quizify.ActivityResult.MainActivity"
-            android:label="@string/title_activity_result"
-            android:noHistory="true">
+            android:name=".ActivityResult.MainActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_result">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -68,8 +73,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name="quizify.ajeet_meena.com.quizify.ActivityExamination.BroadcastService"/>
-        <service android:name="quizify.ajeet_meena.com.quizify.ActivityExamination.HeadService"/>
+        <service android:name=".ActivityQuiz.HeadService"/>
         <!-- [START gcm_receiver] -->
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
@@ -77,14 +81,16 @@
             android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+
                 <category android:name="gcm.play.android.samples.com.gcmquickstart"/>
             </intent-filter>
         </receiver>
         <!-- [END gcm_receiver] -->
 
+
         <!-- [START gcm_listener] -->
         <service
-            android:name=".GCM.MyGcmListenerService"
+            android:name=".Utilities.GCM.MyGcmListenerService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
@@ -93,7 +99,7 @@
         <!-- [END gcm_listener] -->
         <!-- [START instanceId_listener] -->
         <service
-            android:name=".GCM.MyInstanceIDListenerService"
+            android:name=".Utilities.GCM.MyInstanceIDListenerService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID"/>
@@ -101,17 +107,24 @@
         </service>
         <!-- [END instanceId_listener] -->
         <service
-            android:name=".GCM.RegistrationIntentService"
+            android:name=".Utilities.GCM.RegistrationIntentService"
             android:exported="false">
         </service>
 
-        <receiver android:name=".ActivityMainPage.DeclineEventNotificationReceiver">
+        <receiver android:name=".ActivityMain.NotificationReceiver">
+        </receiver>
+        <receiver android:name=".ActivityMain.OnAlarmReceive">
         </receiver>
 
-        <receiver android:name=".ActivityMainPage.OnAlarmReceive">
-        </receiver>
+        <activity
+            android:name=".splash"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
-
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

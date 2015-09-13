@@ -1,48 +1,45 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#11234567"
+              android:orientation="vertical">
 
-    tools:ignore="MergeRootFrame">
+    <include layout="@layout/toolbar2"/>
 
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:src="@drawable/background"
-        android:scaleType="centerCrop" />
+    <quizify.ajeet_meena.com.quizify.Utilities.SlidingTabLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#EE005387"/>
 
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="#8832122F" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <LinearLayout
-
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/pager"
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            />
-
-
-
-        <view
+        <android.support.v4.widget.DrawerLayout
+            android:id="@+id/drawer_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            class="quizify.ajeet_meena.com.quizify.Utilities.CirclePageIndicator"
-            android:id="@+id/indicator"
-            android:layout_gravity="center_horizontal" />
+            android:layout_height="match_parent">
 
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                />
 
-    </LinearLayout>
+            <include
+                layout="@layout/profile_info"
+                android:layout_width="240dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"/>
+        </android.support.v4.widget.DrawerLayout>
 
-</FrameLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@drawable/drop_shadows"/>
+    </FrameLayout>
+
+</LinearLayout>

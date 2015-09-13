@@ -53,7 +53,7 @@ public class GridViewWithHeaderAndFooter extends GridView
     private static class FixedViewInfo
     {
         /**
-         * The view to add to the grid
+         * The view to addSingleRow to the grid
          */
         public View view;
         public ViewGroup viewContainer;
@@ -133,7 +133,7 @@ public class GridViewWithHeaderAndFooter extends GridView
      * NOTE: Call this before calling setAdapter. This is so HeaderGridView can wrap
      * the supplied cursor with one that will also account for header views.
      *
-     * @param v The view to add.
+     * @param v The view to addSingleRow.
      */
     public void addHeaderView(View v)
     {
@@ -148,7 +148,7 @@ public class GridViewWithHeaderAndFooter extends GridView
      * NOTE: Call this before calling setAdapter. This is so HeaderGridView can wrap
      * the supplied cursor with one that will also account for header views.
      *
-     * @param v            The view to add.
+     * @param v            The view to addSingleRow.
      * @param data         Data to associate with this view
      * @param isSelectable whether the item is selectable
      */
@@ -158,7 +158,7 @@ public class GridViewWithHeaderAndFooter extends GridView
         if (adapter != null && !(adapter instanceof HeaderViewGridAdapter))
         {
             throw new IllegalStateException(
-                    "Cannot add header view to grid -- setAdapter has already been called.");
+                    "Cannot addSingleRow header view to grid -- setAdapter has already been called.");
         }
 
         ViewGroup.LayoutParams lyp = v.getLayoutParams();
@@ -196,7 +196,7 @@ public class GridViewWithHeaderAndFooter extends GridView
         if (mAdapter != null && !(mAdapter instanceof HeaderViewGridAdapter))
         {
             throw new IllegalStateException(
-                    "Cannot add header view to grid -- setAdapter has already been called.");
+                    "Cannot addSingleRow header view to grid -- setAdapter has already been called.");
         }
 
         ViewGroup.LayoutParams lyp = v.getLayoutParams();

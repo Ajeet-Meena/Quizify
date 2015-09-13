@@ -2,7 +2,9 @@ package quizify.ajeet_meena.com.quizify.Utilities;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +14,7 @@ import android.widget.TextView;
 import quizify.ajeet_meena.com.quizify.R;
 
 
-/**
- * Created by d4ddy-lild4rk on 12/12/14.
- */
+
 public class Standard_Dialog extends DialogFragment implements View.OnClickListener
 {
 
@@ -52,7 +52,7 @@ public class Standard_Dialog extends DialogFragment implements View.OnClickListe
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.layout_dialog, null);
+        View dialogView = inflater.inflate(R.layout.layout_dialog_standard, null);
 
         dialogTitle = (TextView) dialogView.findViewById(R.id.dialogTitle);
         dialogMessage = (TextView) dialogView.findViewById(R.id.dialogMessage);
@@ -68,8 +68,10 @@ public class Standard_Dialog extends DialogFragment implements View.OnClickListe
         dialogPositiveButton.setOnClickListener(this);
 
         builder.setView(dialogView);
+        Dialog dialog = builder.create();
+        dialog.getWindow().getAttributes().windowAnimations = R.style.MyAnimation_Window;
 
-        return builder.create();
+        return dialog;
     }
 
     @Override
@@ -77,10 +79,20 @@ public class Standard_Dialog extends DialogFragment implements View.OnClickListe
     {
         if (v.getId() == R.id.dialogButtonNegative)
         {
+
+            if (getArguments().getString(KEY_NEGATIVEBUTTON).equals("BUG REPORT/SUGGEST"))
+            {
+                Suggest_Dialog suggest_dialog = Suggest_Dialog.newInstance("Bug Report/Suggest", "", "CANCEL", "SUBMIT");
+                suggest_dialog.show(getFragmentManager(), "dialog");
+            }
             dismiss();
         }
         if (v.getId() == R.id.dialogButtonPositive)
         {
+            if(getArguments().getString(KEY_POSITIVEBUTTON).equals("OPEN SETTINGS"))
+            {
+                startActivityForResult(new Intent(Settings.ACTION_DATE_SETTINGS), 0);
+            }
             dismiss();
         }
 
