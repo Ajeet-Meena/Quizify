@@ -1,0 +1,64 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity$PlaceholderFragment"
+    xmlns:facebook="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+
+
+    <ScrollView
+
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:layout_marginTop="64dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/app_icon"/>
+            <TextView
+                android:id="@+id/quizify"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="36sp"
+                android:text="Quizify"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"
+                android:textColor="#EEffffff"/>
+            <TextView
+                android:id="@+id/message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#ccc"
+                android:text="Online Examination Portal"
+                android:textSize="24sp"
+                android:gravity="center_horizontal"
+                />
+
+
+
+
+
+        </LinearLayout>
+    </ScrollView>
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="46dp"
+        android:textSize="16sp"
+        android:layout_gravity="center_horizontal"
+        android:text="LOG IN WITH FACEBOOK"
+        android:layout_margin="32dp"
+        facebook:confirm_logout="false"
+
+         />
+</LinearLayout>
