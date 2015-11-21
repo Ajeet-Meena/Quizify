@@ -147,15 +147,3 @@ SET
 `quiz_unattempted` = 1,
 `is_completed` = 1
 WHERE mydb.user_participated_quiz.user_participated_quiz_id = 1;
-
-
-
-
-
-
-
-
-
-
-
-
